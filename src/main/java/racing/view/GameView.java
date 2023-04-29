@@ -2,7 +2,7 @@ package racing.view;
 
 import java.util.Scanner;
 
-public class InputView {
+public class GameView {
     Scanner scanner = new Scanner(System.in);
 
     public void viewInputCarName() {
@@ -18,18 +18,15 @@ public class InputView {
         return carNameArray;
     }
 
-    public void viewInputTimes() {
+    public void viewInputPlayTime() {
         System.out.println("```");
         System.out.println("시도할 회수는 몇회인가요?");
         System.out.println("```");
     }
 
-    public String inputTimes() {
-        String inputTimes = scanner.next();
+    public int inputPlayTime() {
+        int inputPlayTime = scanner.nextInt();
 
-        return inputTimes;
+        return inputPlayTime;
     }
-
-
-
 }

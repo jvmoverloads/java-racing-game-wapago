@@ -1,55 +1,27 @@
 package racing.controller;
 
-import racing.model.Car;
-import racing.view.InputView;
+import racing.model.*;
+import racing.service.DecideService;
+import racing.view.GameView;
 
 public class RacingController {
 
-    InputView inputView = new InputView();
-//    CarServiceImpl carService = new CarServiceImpl();
+    Cars cars = new Cars();
+    User user = new User();
 
     public void start() {
         set();
+        race();
     }
 
     public void set() {
-        Car[] cars = setInformation();
-        String times = setTimes();
+        String[] carNames = user.inputCarNames();
+        int playTime = user.inputPlayTime();
 
-        play(cars, times);
+        cars.setCars(carNames, playTime);
     }
 
-    public Car[] setInformation() {
-        inputView.viewInputCarName();
-        String[] carNames = inputView.inputCarName();
-
-        Car[] cars = setCars(carNames);
-
-        return cars;
-    }
-
-    public Car[] setCars(String[] carNames) {
-        int carNameCount = carNames.length;
-        Car[] carObjectArray = new Car[carNameCount];
-
-        for(int i=0; i<carNameCount; i++) {
-            carObjectArray[i] = new Car(carNames[i]);
-        }
-
-        return carObjectArray;
-    }
-
-    public String setTimes() {
-        inputView.viewInputTimes();
-        String times = inputView.inputTimes();
-
-        return times;
-    }
-
-    public void play(Car[] cars, String times) {
-        int carNameCount = cars.length;
-        boolean isMove;
-
-//        moveOrNot();
+    public void race() {
+        cars.move();
     }
 }

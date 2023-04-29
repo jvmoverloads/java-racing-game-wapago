@@ -4,34 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Cars {
-    List<Car> cars = new ArrayList<>();
 
-    int carQuantity;
+    public List<Car> carList = new ArrayList<>();
     int playTime;
 
     Decider decider = new Decider();
 
-    public void setCars(String[] carNames, int playTime) {
-        carQuantity = carNames.length;
+    public void setCar(String[] carNames, int playTime) {
         this.playTime = playTime;
 
-        setCar(carNames);
+        for(String car : carNames) {
+            carList.add(new Car(car, playTime));
+        }
     }
 
-    public void setCar(String[] carNames) {
-        for(String car : carNames) {
-            cars.add(new Car(car));
-        }
+    public List<Car> getCarList() {
+        return this.carList;
     }
 
     public void move() {
-        for(Car car : cars) {
+        for(Car car : carList) {
             decider.decideMove(car);
-
-//            System.out.println("이름: " + car.getCarName());
-//            System.out.println("위치: " + car.getMoveMarker());
-//            System.out.println("==============================");
         }
     }
-
 }

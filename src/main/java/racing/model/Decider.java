@@ -1,25 +1,31 @@
 package racing.model;
 
+import racing.util.GetRandomNumber;
+
+import java.util.List;
+
 public class Decider {
-
-    Result result = new Result();
-
+    GetRandomNumber getRandomNumber = new GetRandomNumber();
     public void decideMove(Car car) {
-        double num = Math.random();
-        int randomNumber = (int) (num * 10);
 
-        System.out.println("랜덤숫자: " + randomNumber);
+        String currentMoveMarker = car.getMoveMarker();
+        int currentPosition = car.getPosition();
 
-        if(randomNumber >= 4) {
-            int currentPosition = car.getPosition();
-            car.setPosition(currentPosition);
+        boolean canMove = getRandomNumber.getRandomNumber();
 
-            String currentMoveMarker = car.getMoveMarker();
+        if(canMove) {
             car.setMoveMarker(currentMoveMarker + "-");
         }
+
+        car.setPosition(currentPosition + 1);
+
+        System.out.println("이름: " + car.getCarName());
+        System.out.println("현재까지 진행횟수: " + car.getPosition());
+        System.out.println("마커: " + car.getMoveMarker());
+        System.out.println("==============================");
     }
 
-    public void decideWinner() {
+    public void decideWinner(List<Car> carList) {
 
     }
 }

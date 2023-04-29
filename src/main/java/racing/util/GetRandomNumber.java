@@ -2,7 +2,7 @@ package racing.util;
 
 public class GetRandomNumber {
 
-    public static boolean getMoveCount(int times) {
+    public boolean getRandomNumber() {
         double num = Math.random();
         int randomNumber = (int) (num * 10);
 

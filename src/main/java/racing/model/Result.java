@@ -2,7 +2,10 @@ package racing.model;
 
 public class Result {
 
-    public Result() {
+    Car car;
+
+    public Result(Car car) {
+        this.car = car;
     }
 
 }

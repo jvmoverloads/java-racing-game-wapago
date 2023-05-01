@@ -1,55 +1,47 @@
 package racing.controller;
 
-import racing.model.Car;
-import racing.view.InputView;
+import racing.model.*;
+import racing.view.GameView;
+
+import java.util.List;
 
 public class RacingController {
 
-    InputView inputView = new InputView();
-//    CarServiceImpl carService = new CarServiceImpl();
+    Cars cars = new Cars();
+    User user = new User();
+    Decider decider = new Decider();
+    GameView gameView = new GameView();
+
+    List<String> winners;
+
+    int playTime;
 
     public void start() {
         set();
+        race();
+        pick();
+        gameView.showWinner(winners);
     }
 
     public void set() {
-        Car[] cars = setInformation();
-        String times = setTimes();
+        String[] carNames = user.inputCarNames();
+        playTime = user.inputPlayTime();
 
-        play(cars, times);
+        cars.setCar(carNames, playTime);
     }
 
-    public Car[] setInformation() {
-        inputView.viewInputCarName();
-        String[] carNames = inputView.inputCarName();
+    public void race() {
+        int playCount = 0;
 
-        Car[] cars = setCars(carNames);
-
-        return cars;
-    }
-
-    public Car[] setCars(String[] carNames) {
-        int carNameCount = carNames.length;
-        Car[] carObjectArray = new Car[carNameCount];
-
-        for(int i=0; i<carNameCount; i++) {
-            carObjectArray[i] = new Car(carNames[i]);
+        while(playCount != playTime) {
+            cars.move();
+            playCount++;
         }
-
-        return carObjectArray;
     }
 
-    public String setTimes() {
-        inputView.viewInputTimes();
-        String times = inputView.inputTimes();
+    public void pick() {
+        List<Car> carList = cars.getCarList();
 
-        return times;
-    }
-
-    public void play(Car[] cars, String times) {
-        int carNameCount = cars.length;
-        boolean isMove;
-
-//        moveOrNot();
+        winners = decider.decideWinner(carList);
     }
 }

@@ -1,10 +1,13 @@
 package racing.view;
 
+import racing.util.InputValidator;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class GameView {
     Scanner scanner = new Scanner(System.in);
+    InputValidator inputValidator = new InputValidator();
     StringBuilder stringBuilder = new StringBuilder();
 
     public void viewInputCarName() {
@@ -14,10 +17,11 @@ public class GameView {
     }
 
     public String[] inputCarName() {
-        String inputCarName = scanner.next();
-        String[] carNameArray = inputCarName.split(",");
+        String inputCarNames = scanner.nextLine();
 
-        return carNameArray;
+        String[] carNamesArray = inputValidator.validateInputCarNames(inputCarNames);
+
+        return carNamesArray;
     }
 
     public void viewInputPlayTime() {
@@ -27,9 +31,12 @@ public class GameView {
     }
 
     public int inputPlayTime() {
-        int inputPlayTime = scanner.nextInt();
+        String inputPlayTime = scanner.nextLine();
 
-        return inputPlayTime;
+        inputValidator.validateInputPlayTimes(inputPlayTime);
+        int playTime = Integer.parseInt(inputPlayTime);
+
+        return playTime;
     }
 
     public void showResult(String result) {

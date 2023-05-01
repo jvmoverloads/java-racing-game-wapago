@@ -26,5 +26,7 @@ public class Cars {
         for(Car car : carList) {
             decider.decideMove(car);
         }
+
+        System.out.println();
     }
 }

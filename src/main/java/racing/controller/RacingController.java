@@ -1,6 +1,7 @@
 package racing.controller;
 
 import racing.model.*;
+import racing.view.GameView;
 
 import java.util.List;
 
@@ -9,6 +10,9 @@ public class RacingController {
     Cars cars = new Cars();
     User user = new User();
     Decider decider = new Decider();
+    GameView gameView = new GameView();
+
+    List<String> winners;
 
     int playTime;
 
@@ -16,6 +20,7 @@ public class RacingController {
         set();
         race();
         pick();
+        gameView.showWinner(winners);
     }
 
     public void set() {
@@ -37,10 +42,6 @@ public class RacingController {
     public void pick() {
         List<Car> carList = cars.getCarList();
 
-        decider.decideWinner(carList);
-
-//        for(Car car : carList) {
-//            System.out.println(car.getCarName() + "의 최종 점수: " + car.getMoveMarker());
-//        }
+        winners = decider.decideWinner(carList);
     }
 }

@@ -1,9 +1,11 @@
 package racing.view;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class GameView {
     Scanner scanner = new Scanner(System.in);
+    StringBuilder stringBuilder = new StringBuilder();
 
     public void viewInputCarName() {
         System.out.println("```");
@@ -28,5 +30,25 @@ public class GameView {
         int inputPlayTime = scanner.nextInt();
 
         return inputPlayTime;
+    }
+
+    public void showResult(String result) {
+        System.out.println(result);
+    }
+
+    public void showWinner(List<String> winners) {
+        stringBuilder.append("최종 우승자 : ");
+
+        for(int i=0; i<winners.size(); i++) {
+            stringBuilder.append(winners.get(i));
+
+            if(winners.size() != 1 && i != winners.size() - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+
+        String resultStr = stringBuilder.toString();
+
+        System.out.println(resultStr);
     }
 }

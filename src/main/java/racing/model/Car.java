@@ -1,22 +1,36 @@
 package racing.model;
 
-import racing.util.GetRandomNumber;
+import racing.service.Movable;
+import racing.view.GameView;
 
 public class Car {
-    private final String name;
-    private int position = 0;
 
-    public Car(String name) {
-        this.name = name;
+    private final CarName carName;
+    private Position position;
+
+    public Car(String carName) {
+        this.carName = new CarName(carName);
+        this.position = new Position();
     }
 
-    public void moveOrNot(String times) {
-        int intTimes = Integer.parseInt(times);
-
-        for(int i=0; i<intTimes; i++) {
-            boolean isMove = GetRandomNumber.getMoveCount(intTimes);
+    public void move(Movable movingStrategy) {
+        if (movingStrategy.canMove()) {
+            position = this.position.move();
         }
-
     }
 
+    public void printCurrPosition() {
+        GameView.print(this.carName.getName() + " : " + this.position.getCurrentPosition());
+    }
+
+    public int getCurrentPosition() {
+        return this.position.getCurrentPosition().length();
+    }
+
+    public String getNameIfWin(int winnerPosition) {
+        if(this.position.getCurrentPosition().length() == winnerPosition) {
+            return this.carName.getName() + ", ";
+        }
+        return "";
+    }
 }

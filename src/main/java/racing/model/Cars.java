@@ -1,32 +1,61 @@
 package racing.model;
 
-import java.util.ArrayList;
+import racing.exception.InvalidCarNamesException;
+import racing.properties.InvalidCarExceptionMessages;
+import racing.service.Movable;
+import racing.view.GameView;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class Cars {
 
-    public List<Car> carList = new ArrayList<>();
-    int playTime;
+    private final List<Car> cars;
 
-    Decider decider = new Decider();
-
-    public void setCar(String[] carNames, int playTime) {
-        this.playTime = playTime;
-
-        for(String car : carNames) {
-            carList.add(new Car(car, playTime));
-        }
+    public Cars(String carNames) {
+        this.cars = carNameValidator(carNames);
     }
 
-    public List<Car> getCarList() {
-        return this.carList;
-    }
-
-    public void move() {
-        for(Car car : carList) {
-            decider.decideMove(car);
+    public List<Car> carNameValidator(String carNames) {
+        if (!carNames.contains(",")) {
+            throw new InvalidCarNamesException(InvalidCarExceptionMessages.COMMA_EXCEPTION_CONTAIN);
         }
 
-        System.out.println();
+        if (carNames.startsWith(",")) {
+            throw new InvalidCarNamesException(InvalidCarExceptionMessages.COMMA_EXCEPTION_START);
+        }
+
+        if (carNames.endsWith(",")) {
+            throw new InvalidCarNamesException(InvalidCarExceptionMessages.COMMA_EXCEPTION_END);
+        }
+
+        if (carNames.split(",").length < 2) {
+            throw new InvalidCarNamesException(InvalidCarExceptionMessages.INPUT_MIN_TWO_CARS);
+        }
+
+        return Arrays.stream(carNames.split(",")).map(Car::new).toList();
+    }
+
+    public void play(Movable movingStrategy) {
+        cars.forEach(car -> car.move(movingStrategy));
+    }
+
+    public void printCurrPositions() {
+        GameView.print("실행 결과");
+        cars.forEach(Car::printCurrPosition);
+        GameView.printLine();
+    }
+
+    public int getWinnerPosition() {
+        return cars.stream().mapToInt(Car::getCurrentPosition).max().getAsInt();
+    }
+
+    public StringBuilder getWinnerNames(int winnerPosition) {
+        StringBuilder result = new StringBuilder();
+        cars.forEach(
+                car -> result.append(car.getNameIfWin(winnerPosition))
+        );
+
+        return result;
     }
 }
